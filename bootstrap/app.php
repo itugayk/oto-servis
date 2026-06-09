@@ -11,7 +11,10 @@ return Application::configure(basePath: dirname(__DIR__))
         health: '/up',
     )
     ->withMiddleware(function (Middleware $middleware): void {
-        //
+        // Behind Coolify/Traefik the TLS terminates at the proxy and the app is
+        // reached over HTTP; trust the forwarded headers so request scheme,
+        // host and client IP are detected correctly (fixes http:// assets).
+        $middleware->trustProxies(at: '*');
     })
     ->withExceptions(function (Exceptions $exceptions): void {
         //
