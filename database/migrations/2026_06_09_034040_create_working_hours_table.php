@@ -1,0 +1,29 @@
+<?php
+
+use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
+
+return new class extends Migration
+{
+    public function up(): void
+    {
+        Schema::create('working_hours', function (Blueprint $table) {
+            $table->id();
+            $table->unsignedTinyInteger('day');
+            $table->boolean('is_open')->default(true);
+            $table->string('open_time')->default('09:00');
+            $table->string('close_time')->default('18:00');
+            $table->unsignedInteger('slot_minutes')->default(60);
+            $table->unsignedInteger('capacity')->default(2);
+            $table->timestamps();
+
+            $table->unique('day');
+        });
+    }
+
+    public function down(): void
+    {
+        Schema::dropIfExists('working_hours');
+    }
+};
